@@ -172,6 +172,16 @@ def test_update_expression_debug(expr: UpdateExpression, expected: str) -> None:
             ),
         ),
         (
+            F("a").equals("a") & ((F("c").equals("c") & F("d").equals("d"))),
+            AndCondition(
+                (
+                    Comparison(F("a"), "=", "a"),
+                    Comparison(F("c"), "=", "c"),
+                    Comparison(F("d"), "=", "d"),
+                )
+            ),
+        ),
+        (
             F("a").equals("a") | F("b").equals("b"),
             OrCondition((Comparison(F("a"), "=", "a"), Comparison(F("b"), "=", "b"))),
         ),
@@ -192,6 +202,16 @@ def test_update_expression_debug(expr: UpdateExpression, expected: str) -> None:
                 (
                     Comparison(F("a"), "=", "a"),
                     Comparison(F("b"), "=", "b"),
+                    Comparison(F("c"), "=", "c"),
+                    Comparison(F("d"), "=", "d"),
+                )
+            ),
+        ),
+        (
+            F("a").equals("a") | ((F("c").equals("c") | F("d").equals("d"))),
+            OrCondition(
+                (
+                    Comparison(F("a"), "=", "a"),
                     Comparison(F("c"), "=", "c"),
                     Comparison(F("d"), "=", "d"),
                 )
